@@ -1,10 +1,12 @@
 .home-page {
   width: 100%;
+  overflow-x: hidden;
 }
 
+/* Hero Section */
 .hero {
   background: linear-gradient(135deg, var(--accent-pink), var(--accent-yellow), var(--accent-blue));
-  padding: calc(var(--spacing-unit) * 12) 0;
+  padding: calc(var(--spacing-unit) * 10) 0;
   text-align: center;
   color: white;
   position: relative;
@@ -16,37 +18,116 @@
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: url('/hero_banner.png') center/cover;
-  opacity: 0.2;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 10%, transparent 10.5%);
+  background-size: 20px 20px;
   z-index: 1;
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  background: rgba(255, 255, 255, 0.2);
-  padding: calc(var(--spacing-unit) * 4);
-  border-radius: 20px;
-  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.15);
+  padding: calc(var(--spacing-unit) * 5);
+  border-radius: 30px;
+  backdrop-filter: blur(8px);
   border: 4px dashed white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-weight: 900;
+  font-size: 0.9rem;
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  border: 2px solid white;
 }
 
 .hero h1 {
-  font-size: 56px;
+  font-size: 52px;
   margin-bottom: calc(var(--spacing-unit) * 2);
   color: white;
-  text-shadow: 3px 3px 0 var(--primary-color);
+  text-shadow: 4px 4px 0 var(--primary-color);
 }
 
+.hero p {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: calc(var(--spacing-unit) * 4);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.hero-buttons {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 2);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Section Title */
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: calc(var(--spacing-unit) * 6);
+  color: var(--primary-color);
+  text-shadow: 2px 2px 0 white;
+}
+
+/* Categories Section */
+.categories-section {
+  padding: calc(var(--spacing-unit) * 8) calc(var(--spacing-unit) * 2);
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: calc(var(--spacing-unit) * 3);
+}
+
+.category-card {
+  background-color: var(--secondary-color);
+  border: 4px solid var(--primary-color);
+  border-radius: 24px;
+  padding: calc(var(--spacing-unit) * 3);
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 6px 6px 0 var(--cat-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 10px 10px 0 var(--cat-color);
+}
+
+.category-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: calc(var(--spacing-unit) * 1.5);
+}
+
+.category-card h3 {
+  font-size: 18px;
+  color: var(--primary-color);
+  margin-bottom: 0;
+}
+
+/* Featured Products */
 .featured-products {
-  padding: calc(var(--spacing-unit) * 10) 0;
+  padding: calc(var(--spacing-unit) * 8) 0;
   background: var(--accent-yellow);
+  border-top: 8px solid var(--primary-color);
+  border-bottom: 8px solid var(--primary-color);
 }
 
 .featured-products h2 {
   text-align: center;
   margin-bottom: calc(var(--spacing-unit) * 6);
-  font-size: 40px;
+  font-size: 36px;
   color: var(--primary-color);
   text-shadow: 2px 2px 0 white;
 }
@@ -58,24 +139,406 @@
 }
 
 .product-card {
+  position: relative;
   text-align: center;
   padding: calc(var(--spacing-unit) * 3);
-  border: 4px solid var(--accent-pink);
-  border-radius: 20px;
+  border: 4px solid var(--primary-color);
+  border-radius: 24px;
   background-color: var(--secondary-color);
   box-shadow: 8px 8px 0 var(--accent-blue);
   transition: transform 0.3s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-10px) rotate(2deg);
+  transform: translateY(-8px) rotate(1deg);
+}
+
+.product-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-weight: 900;
+  font-size: 12px;
+  border: 2px solid var(--primary-color);
+  z-index: 10;
+}
+
+.product-image-wrapper {
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 4px solid var(--primary-color);
+  margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
 .product-image {
   width: 100%;
-  height: 250px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 12px;
-  border: 4px solid var(--accent-orange);
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.product-card h3 {
+  font-size: 22px;
+  margin-bottom: calc(var(--spacing-unit) * 1);
+}
+
+.product-price {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--accent-pink);
   margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.product-card-buttons {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 1.5);
+  justify-content: center;
+}
+
+.btn-sm {
+  padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2.5);
+  font-size: 0.95rem;
+}
+
+/* Interactive 3D Print Simulator */
+.simulator-section {
+  padding: calc(var(--spacing-unit) * 8) calc(var(--spacing-unit) * 2);
+}
+
+.simulator-card {
+  background-color: var(--secondary-color);
+  border: 4px solid var(--primary-color);
+  border-radius: 32px;
+  padding: calc(var(--spacing-unit) * 5);
+  box-shadow: 12px 12px 0 var(--accent-pink);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: calc(var(--spacing-unit) * 5);
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .simulator-card {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}
+
+.simulator-info h2 {
+  font-size: 36px;
+  margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.selector-group {
+  margin-top: calc(var(--spacing-unit) * 3);
+}
+
+.selector-group h4 {
+  font-size: 18px;
+  color: var(--primary-color);
+  margin-bottom: calc(var(--spacing-unit) * 1.5);
+}
+
+.toy-options {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 1.5);
+  flex-wrap: wrap;
+}
+
+.option-btn {
+  background-color: #f0f0f0;
+  border: 3px solid var(--primary-color);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-btn.active {
+  background-color: var(--accent-yellow);
+  transform: scale(1.05);
+  box-shadow: 3px 3px 0 var(--primary-color);
+}
+
+.color-options {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 2);
+}
+
+.color-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.color-dot.active {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px white, 0 0 0 6px var(--primary-color);
+}
+
+.print-trigger-btn {
+  margin-top: calc(var(--spacing-unit) * 4);
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Printer Visualizer */
+.printer-visualizer {
+  display: flex;
+  justify-content: center;
+}
+
+.printer-frame {
+  width: 100%;
+  max-width: 340px;
+  height: 340px;
+  border: 6px solid var(--primary-color);
+  border-radius: 24px;
+  background-color: #1a1a2e;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+}
+
+.printer-gantry {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  height: 4px;
+  background-color: #555;
+  transition: top 0.15s linear;
+  z-index: 5;
+}
+
+.printer-extruder {
+  position: absolute;
+  top: -12px;
+  transform: translateX(-50%);
+  transition: left 0.15s linear;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.extruder-icon {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.laser-beam {
+  width: 2px;
+  height: 40px;
+  animation: flicker 0.1s infinite alternate;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.printer-bed {
+  position: absolute;
+  bottom: 15%;
+  left: 10%;
+  right: 10%;
+  height: 8px;
+  background-color: #333;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.printed-toy-preview {
+  font-size: 72px;
+  line-height: 1;
+  margin-bottom: 8px;
+  transition: transform 0.15s linear, opacity 0.15s linear;
+}
+
+.bounce-animation {
+  animation: bounce-toy 0.6s ease infinite alternate;
+}
+
+@keyframes bounce-toy {
+  0% { transform: scale(1) translateY(0); }
+  100% { transform: scale(1.1) translateY(-10px); }
+}
+
+.print-progress-container {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  height: 24px;
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 50px;
+  overflow: hidden;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.print-progress-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transition: width 0.15s linear;
+}
+
+.progress-text {
+  position: relative;
+  z-index: 2;
+  color: white;
+  font-weight: 900;
+  font-size: 12px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.print-success-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(106, 13, 173, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  z-index: 10;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.print-success-overlay h3 {
+  color: var(--accent-yellow);
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+/* Why Pigglitz Features */
+.features-section {
+  padding: calc(var(--spacing-unit) * 8) calc(var(--spacing-unit) * 2);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: calc(var(--spacing-unit) * 4);
+}
+
+.feature-card {
+  background-color: var(--secondary-color);
+  border: 4px solid var(--primary-color);
+  border-radius: 24px;
+  padding: calc(var(--spacing-unit) * 4);
+  text-align: center;
+  box-shadow: 8px 8px 0 var(--accent-blue);
+  transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto calc(var(--spacing-unit) * 2.5);
+}
+
+.feature-icon-wrapper.pink { background-color: var(--accent-pink); color: white; }
+.feature-icon-wrapper.yellow { background-color: var(--accent-yellow); color: var(--primary-color); }
+.feature-icon-wrapper.blue { background-color: var(--accent-blue); color: white; }
+
+.feature-card h3 {
+  font-size: 22px;
+  margin-bottom: calc(var(--spacing-unit) * 1.5);
+}
+
+.feature-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: calc(var(--spacing-unit) * 8) 0;
+  background-color: var(--accent-blue);
+  border-top: 8px solid var(--primary-color);
+}
+
+.testimonials-section h2 {
+  color: white;
+  text-shadow: 3px 3px 0 var(--primary-color);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: calc(var(--spacing-unit) * 4);
+}
+
+.testimonial-card {
+  background-color: var(--secondary-color);
+  border: 4px solid var(--primary-color);
+  border-radius: 24px;
+  padding: calc(var(--spacing-unit) * 4);
+  text-align: center;
+  box-shadow: 8px 8px 0 var(--accent-yellow);
+  position: relative;
+}
+
+.testimonial-avatar {
+  font-size: 40px;
+  margin-bottom: calc(var(--spacing-unit) * 1);
+}
+
+.testimonial-stars {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.testimonial-text {
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #444;
+  margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.testimonial-name {
+  font-size: 18px;
+  color: var(--primary-color);
+  margin-bottom: 2px;
+}
+
+.testimonial-role {
+  font-size: 14px;
+  color: #777;
+  font-weight: 700;
 }
