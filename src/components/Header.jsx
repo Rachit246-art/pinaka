@@ -7,6 +7,7 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const checkUserStatus = () => {
     const savedUser = localStorage.getItem('pigglitz_user');
@@ -26,6 +27,17 @@ const Header = () => {
       window.removeEventListener('storage', checkUserStatus);
     };
   }, []);
+
+  const shopAllCategories = [
+    { name: 'Build a Wigglitz Bundle', path: '/category/build-a-wigglitz-bundle' },
+    { name: "Collector's Guides", path: '/category/collectors-guides' },
+    { name: 'Monthly Box', path: '/category/monthly-box' },
+    { name: 'Tubes', path: '/category/tubes' },
+    { name: 'Real Time Collectibles', path: '/category/real-time-collectibles' },
+    { name: 'Winky Plush', path: '/category/winky-plush' },
+    { name: 'Gift Cards', path: '/category/gift-cards' },
+    { name: 'Wigglitz Pouch', path: '/category/wigglitz-pouch' }
+  ];
 
   return (
     <header className="header">
@@ -76,11 +88,33 @@ const Header = () => {
         <div className="container nav-links">
           <Link to="/" className="nav-item active">Home</Link>
           <Link to="/build-bundle" className="nav-item">Build a Bundle</Link>
-          <Link to="/collectibles" className="nav-item">Real Time Collectibles</Link>
-          <div className="nav-item dropdown">
-            <span>Shop All</span>
-            <ChevronDown size={14} />
+          <Link to="/category/real-time-collectibles" className="nav-item">Real Time Collectibles</Link>
+          
+          {/* Shop All Dropdown */}
+          <div 
+            className="nav-item dropdown"
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => setDropdownOpen(false)}
+          >
+            <span className="dropdown-trigger">
+              Shop All <ChevronDown size={14} />
+            </span>
+            {dropdownOpen && (
+              <div className="dropdown-menu">
+                {shopAllCategories.map((cat, idx) => (
+                  <Link 
+                    key={idx} 
+                    to={cat.path} 
+                    className="dropdown-link"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
+
           <Link to="/wholesale" className="nav-item">Wholesale</Link>
           <Link to="/about" className="nav-item">About ZB Designs</Link>
           <Link to="/store-locator" className="nav-item">Store Locator</Link>

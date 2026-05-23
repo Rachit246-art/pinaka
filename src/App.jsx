@@ -6,6 +6,7 @@ import ProductPage from './pages/ProductPage';
 import Login from './pages/Login';
 import Account from './pages/Account';
 import Contact from './pages/Contact';
+import CategoryPage from './pages/CategoryPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/account" element={<Account />} />
             <Route path="/build-bundle" element={<Contact />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/category/:categoryId" element={<CategoryPage />} />
           </Routes>
         </main>
         <Footer />
