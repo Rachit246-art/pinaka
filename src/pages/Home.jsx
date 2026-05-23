@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Sparkles, ShieldCheck, Palette, Star, Printer, ChevronLeft, ChevronRight } from 'lucide-react';
 import { addToCart } from '../utils/cartHelper';
 import { formatPrice } from '../utils/currencyHelper';
+import VideoShowcase from '../components/VideoShowcase';
+import LiveStats from '../components/LiveStats';
 import './Home.css';
 
 const Home = () => {
@@ -238,6 +240,9 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Live Stats Ticker */}
+      <LiveStats />
+
       {/* Categories Section */}
       <section className="categories-section container">
         <h2 className="section-title">Choose Your Adventure! 🚀</h2>
@@ -250,6 +255,9 @@ const Home = () => {
           ))}
         </div>
       </section>
+
+      {/* Video Showcase Section */}
+      <VideoShowcase />
 
       {/* Featured Products */}
       <section className="featured-products">

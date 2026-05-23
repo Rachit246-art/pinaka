@@ -1,0 +1,141 @@
+.video-showcase {
+  padding: calc(var(--spacing-unit) * 8) calc(var(--spacing-unit) * 2);
+}
+
+.video-card-wrapper {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 4px solid var(--primary-color);
+  border-radius: 32px;
+  padding: calc(var(--spacing-unit) * 6);
+  box-shadow: 12px 12px 0 var(--accent-pink);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: calc(var(--spacing-unit) * 6);
+  align-items: center;
+  color: white;
+}
+
+@media (min-width: 992px) {
+  .video-card-wrapper {
+    grid-template-columns: 1fr 1.1fr;
+  }
+}
+
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--accent-pink);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-weight: 900;
+  font-size: 0.9rem;
+  margin-bottom: calc(var(--spacing-unit) * 2.5);
+  border: 2px solid white;
+}
+
+.video-info-side h2 {
+  color: white;
+  font-size: 38px;
+  text-shadow: 3px 3px 0 var(--primary-color);
+  margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.video-info-side p {
+  color: #e0e0e0;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin-bottom: calc(var(--spacing-unit) * 4);
+}
+
+.lab-features {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 2.5);
+}
+
+.lab-feature {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.lab-icon {
+  font-size: 24px;
+}
+
+.lab-feature h4 {
+  color: var(--accent-yellow);
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+.lab-feature p {
+  color: #ccc;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+/* Video Player Side */
+.video-player-side {
+  display: flex;
+  justify-content: center;
+}
+
+.video-container-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 4px solid white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.lab-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+  pointer-events: none;
+}
+
+.video-badge-live {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: rgba(255, 0, 0, 0.85);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-weight: 900;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 1px;
+  border: 1px solid white;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  animation: blink 1s infinite alternate;
+}
+
+@keyframes blink {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
