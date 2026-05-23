@@ -1,6 +1,7 @@
 .footer {
-  background-color: var(--secondary-color);
-  border-top: 1px solid #eaeaea;
+  background-color: #111111;
+  color: #ffffff;
+  border-top: 4px solid var(--primary-color);
   padding-top: calc(var(--spacing-unit) * 8);
   margin-top: calc(var(--spacing-unit) * 8);
 }
@@ -24,13 +25,20 @@
 }
 
 .footer-section h3 {
-  font-size: 24px;
+  font-size: 28px;
+  color: var(--accent-pink);
+  text-shadow: 2px 2px 0 var(--primary-color);
   margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
 .footer-section h4 {
-  font-size: 18px;
+  font-size: 20px;
+  color: var(--accent-yellow);
   margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.footer-section p {
+  color: #cccccc;
 }
 
 .newsletter-form {
@@ -42,9 +50,20 @@
 .newsletter-form input {
   flex: 1;
   padding: calc(var(--spacing-unit) * 1.5);
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
   font-family: var(--font-family);
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.newsletter-form input::placeholder {
+  color: #888888;
+}
+
+.newsletter-form input:focus {
+  outline: none;
+  border-color: var(--accent-pink);
 }
 
 .footer-section ul {
@@ -53,14 +72,20 @@
   gap: var(--spacing-unit);
 }
 
+.footer-section a {
+  color: #dddddd;
+  font-weight: 700;
+}
+
 .footer-section a:hover {
-  text-decoration: underline;
+  color: var(--accent-blue);
+  text-decoration: none;
 }
 
 .footer-bottom {
   text-align: center;
   padding: calc(var(--spacing-unit) * 3);
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid #222222;
   font-size: 14px;
-  color: #666;
+  color: #888888;
 }

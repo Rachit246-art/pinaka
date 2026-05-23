@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { addToCart } from '../utils/cartHelper';
 import './CategoryPage.css';
 
 const categoryData = {
@@ -154,7 +155,12 @@ const CategoryPage = () => {
                 <p className="product-price">{product.price}</p>
                 <div className="product-card-buttons">
                   <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">View Details</Link>
-                  <button className="btn btn-primary btn-sm">Add to Cart 🛒</button>
+                  <button 
+                    onClick={() => addToCart(product)} 
+                    className="btn btn-primary btn-sm"
+                  >
+                    Add to Cart 🛒
+                  </button>
                 </div>
               </div>
             );

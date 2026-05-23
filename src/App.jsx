@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -9,11 +10,13 @@ import Contact from './pages/Contact';
 import CategoryPage from './pages/CategoryPage';
 import Wholesale from './pages/Wholesale';
 import About from './pages/About';
+import Cart from './pages/Cart';
 
 function App() {
   return (
     <Router>
       <div className="app-container">
+        <Toaster position="top-center" reverseOrder={false} />
         <Header />
         <main>
           <Routes>
@@ -26,6 +29,7 @@ function App() {
             <Route path="/category/:categoryId" element={<CategoryPage />} />
             <Route path="/wholesale" element={<Wholesale />} />
             <Route path="/about" element={<About />} />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </main>
         <Footer />

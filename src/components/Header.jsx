@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCart, Search, User, ChevronDown } from 'lucide-react';
+import { getCart } from '../utils/cartHelper';
 import './Header.css';
 
 const Header = () => {
@@ -8,6 +9,7 @@ const Header = () => {
   const [userName, setUserName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   const checkUserStatus = () => {
     const savedUser = localStorage.getItem('pigglitz_user');
@@ -20,11 +22,22 @@ const Header = () => {
     }
   };
 
+  const updateCartBadge = () => {
+    const cart = getCart();
+    const count = cart.reduce((total, item) => total + item.quantity, 0);
+    setCartCount(count);
+  };
+
   useEffect(() => {
     checkUserStatus();
+    updateCartBadge();
+    
     window.addEventListener('storage', checkUserStatus);
+    window.addEventListener('cart-updated', updateCartBadge);
+    
     return () => {
       window.removeEventListener('storage', checkUserStatus);
+      window.removeEventListener('cart-updated', updateCartBadge);
     };
   }, []);
 
@@ -78,7 +91,7 @@ const Header = () => {
 
           <Link to="/cart" className="cart-link">
             <ShoppingCart size={22} />
-            <span className="cart-count">0</span>
+            {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
           </Link>
         </div>
       </div>

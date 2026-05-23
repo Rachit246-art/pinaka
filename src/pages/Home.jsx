@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, ShieldCheck, Palette, Star, Printer, ChevronLeft, ChevronRight } from 'lucide-react';
+import { addToCart } from '../utils/cartHelper';
 import './Home.css';
 
 const Home = () => {
@@ -254,7 +255,12 @@ const Home = () => {
                 <p className="product-price">{product.price}</p>
                 <div className="product-card-buttons">
                   <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">View Details</Link>
-                  <button className="btn btn-primary btn-sm">Add to Cart 🛒</button>
+                  <button 
+                    onClick={() => addToCart(product)} 
+                    className="btn btn-primary btn-sm"
+                  >
+                    Add to Cart 🛒
+                  </button>
                 </div>
               </div>
             ))}
