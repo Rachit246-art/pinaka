@@ -1,0 +1,58 @@
+.header {
+  border-bottom: 1px solid #eaeaea;
+  padding: 16px 0;
+  background-color: var(--secondary-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left, .header-right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.header-center .logo {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  background: linear-gradient(45deg, var(--primary-color), var(--accent-pink), var(--accent-orange));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.cart-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  font-size: 12px;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+
+:root {
+  --primary-color: #6a0dad; /* Playful Purple */
+  --secondary-color: #ffffff;
+  --background-color: #fcf4ff; /* Light purple/pink background */
+  --text-color: #333333;
+  --accent-pink: #ff2a7a;
+  --accent-yellow: #ffb703;
+  --accent-blue: #00bbf9;
+  --accent-orange: #fb8500;
+  --font-family: 'Nunito', sans-serif;
+  --spacing-unit: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-pink);
+}
+
+ul {
+  list-style: none;
+}
+
+/* Typography Utilities */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 900; /* Extra bold for playful look */
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  color: var(--primary-color);
+  letter-spacing: 0.5px;
+}
+
+p {
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  font-size: 1.1rem;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 calc(var(--spacing-unit) * 2);
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 4);
+  font-family: var(--font-family);
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 50px; /* Pill shape for playful look */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+  background-color: var(--accent-pink);
+  color: var(--secondary-color);
+  border: 2px solid var(--accent-pink);
+}
+
+.btn-primary:hover {
+  background-color: #e01e68;
+  border-color: #e01e68;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 42, 122, 0.3);
+}
+
+.btn-secondary {
+  background-color: var(--accent-yellow);
+  color: var(--primary-color);
+  border: 2px solid var(--accent-yellow);
+}
+
+.btn-secondary:hover {
+  background-color: #e5a400;
+  border-color: #e5a400;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 183, 3, 0.3);
+}
