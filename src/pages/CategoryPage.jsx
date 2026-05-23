@@ -109,6 +109,13 @@ const categoryData = {
   }
 };
 
+const cardColors = [
+  'var(--accent-pink)',
+  'var(--accent-blue)',
+  'var(--accent-orange)',
+  'var(--accent-yellow)'
+];
+
 const CategoryPage = () => {
   const { categoryId } = useParams();
   const category = categoryData[categoryId] || {
@@ -126,20 +133,32 @@ const CategoryPage = () => {
 
       {category.products.length > 0 ? (
         <div className="products-grid">
-          {category.products.map((product) => (
-            <div key={product.id} className="product-card">
-              <div className="product-tag">{product.tag}</div>
-              <div className="product-image-wrapper">
-                <img src={product.image} alt={product.name} className="product-image" />
+          {category.products.map((product, idx) => {
+            const cardColor = cardColors[idx % cardColors.length];
+            return (
+              <div 
+                key={product.id} 
+                className="product-card" 
+                style={{ 
+                  '--card-shadow-color': cardColor,
+                  borderColor: 'var(--primary-color)'
+                }}
+              >
+                <div className="product-tag" style={{ backgroundColor: cardColor }}>
+                  {product.tag}
+                </div>
+                <div className="product-image-wrapper">
+                  <img src={product.image} alt={product.name} className="product-image" />
+                </div>
+                <h3>{product.name}</h3>
+                <p className="product-price">{product.price}</p>
+                <div className="product-card-buttons">
+                  <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">View Details</Link>
+                  <button className="btn btn-primary btn-sm">Add to Cart 🛒</button>
+                </div>
               </div>
-              <h3>{product.name}</h3>
-              <p className="product-price">{product.price}</p>
-              <div className="product-card-buttons">
-                <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">View Details</Link>
-                <button className="btn btn-primary btn-sm">Add to Cart 🛒</button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div className="no-products">
