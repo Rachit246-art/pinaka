@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { getCart, updateQuantity, removeFromCart, clearCart } from '../utils/cartHelper';
+import { formatPrice } from '../utils/currencyHelper';
 import './Cart.css';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
+  const [currencyTrigger, setCurrencyTrigger] = useState(0);
 
   const loadCart = () => {
     setCartItems(getCart());
@@ -14,9 +16,17 @@ const Cart = () => {
 
   useEffect(() => {
     loadCart();
+    
+    const handleCurrencyUpdate = () => {
+      setCurrencyTrigger(prev => prev + 1);
+    };
+
     window.addEventListener('cart-updated', loadCart);
+    window.addEventListener('currency-updated', handleCurrencyUpdate);
+    
     return () => {
       window.removeEventListener('cart-updated', loadCart);
+      window.removeEventListener('currency-updated', handleCurrencyUpdate);
     };
   }, []);
 
@@ -30,9 +40,10 @@ const Cart = () => {
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
-      const priceNum = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+      // Ensure price is treated as a number
+      const priceNum = typeof item.price === 'number' ? item.price : parseFloat(item.price.toString().replace(/[^0-9.]/g, ''));
       return total + (priceNum * item.quantity);
-    }, 0).toFixed(2);
+    }, 0);
   };
 
   const handleCheckout = () => {
@@ -62,41 +73,44 @@ const Cart = () => {
         <div className="cart-grid">
           {/* Cart Items List */}
           <div className="cart-items-list">
-            {cartItems.map((item) => (
-              <div key={item.id} className="cart-item-card">
-                <div className="cart-item-image-wrapper">
-                  <img src={item.image} alt={item.name} className="cart-item-image" />
-                </div>
-                <div className="cart-item-details">
-                  <h3>{item.name}</h3>
-                  <p className="cart-item-price">{item.price}</p>
-                </div>
-                <div className="cart-item-controls">
-                  <div className="quantity-selector">
+            {cartItems.map((item) => {
+              const priceNum = typeof item.price === 'number' ? item.price : parseFloat(item.price.toString().replace(/[^0-9.]/g, ''));
+              return (
+                <div key={item.id} className="cart-item-card">
+                  <div className="cart-item-image-wrapper">
+                    <img src={item.image} alt={item.name} className="cart-item-image" />
+                  </div>
+                  <div className="cart-item-details">
+                    <h3>{item.name}</h3>
+                    <p className="cart-item-price">{formatPrice(priceNum)}</p>
+                  </div>
+                  <div className="cart-item-controls">
+                    <div className="quantity-selector">
+                      <button 
+                        onClick={() => handleQuantityChange(item.id, item.quantity, -1)}
+                        className="qty-btn"
+                      >
+                        <Minus size={16} />
+                      </button>
+                      <span className="qty-number">{item.quantity}</span>
+                      <button 
+                        onClick={() => handleQuantityChange(item.id, item.quantity, 1)}
+                        className="qty-btn"
+                      >
+                        <Plus size={16} />
+                      </button>
+                    </div>
                     <button 
-                      onClick={() => handleQuantityChange(item.id, item.quantity, -1)}
-                      className="qty-btn"
+                      onClick={() => handleRemove(item.id)} 
+                      className="remove-btn"
+                      title="Remove item"
                     >
-                      <Minus size={16} />
-                    </button>
-                    <span className="qty-number">{item.quantity}</span>
-                    <button 
-                      onClick={() => handleQuantityChange(item.id, item.quantity, 1)}
-                      className="qty-btn"
-                    >
-                      <Plus size={16} />
+                      <Trash2 size={20} />
                     </button>
                   </div>
-                  <button 
-                    onClick={() => handleRemove(item.id)} 
-                    className="remove-btn"
-                    title="Remove item"
-                  >
-                    <Trash2 size={20} />
-                  </button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Cart Summary */}
@@ -104,7 +118,7 @@ const Cart = () => {
             <h3>Order Summary</h3>
             <div className="summary-row">
               <span>Subtotal</span>
-              <strong>${calculateTotal()}</strong>
+              <strong>{formatPrice(calculateTotal())}</strong>
             </div>
             <div className="summary-row">
               <span>Shipping</span>
@@ -112,7 +126,7 @@ const Cart = () => {
             </div>
             <div className="summary-total">
               <span>Total</span>
-              <strong>${calculateTotal()}</strong>
+              <strong>{formatPrice(calculateTotal())}</strong>
             </div>
             <button onClick={handleCheckout} className="btn btn-primary checkout-btn">
               Proceed to Checkout 🚀

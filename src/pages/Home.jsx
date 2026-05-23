@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, ShieldCheck, Palette, Star, Printer, ChevronLeft, ChevronRight } from 'lucide-react';
 import { addToCart } from '../utils/cartHelper';
+import { formatPrice } from '../utils/currencyHelper';
 import './Home.css';
 
 const Home = () => {
   // Hero Carousel State
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currencyTrigger, setCurrencyTrigger] = useState(0);
 
   const heroSlides = [
     {
@@ -60,7 +62,16 @@ const Home = () => {
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000); // Slide every 5 seconds
-    return () => clearInterval(slideInterval);
+    
+    const handleCurrencyUpdate = () => {
+      setCurrencyTrigger(prev => prev + 1);
+    };
+    window.addEventListener('currency-updated', handleCurrencyUpdate);
+
+    return () => {
+      clearInterval(slideInterval);
+      window.removeEventListener('currency-updated', handleCurrencyUpdate);
+    };
   }, [heroSlides.length]);
 
   const nextSlide = () => {
@@ -112,12 +123,12 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [isPrinting, printingProgress]);
 
-  // Mock Products
+  // Mock Products (using numeric USD values)
   const featuredProducts = [
     {
       id: 'wigglitz-dragon',
       name: 'Flexi Rainbow Dragon',
-      price: '$19.99',
+      price: 19.99,
       tag: 'Best Seller 🔥',
       color: 'var(--accent-pink)',
       image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=500&q=80'
@@ -125,7 +136,7 @@ const Home = () => {
     {
       id: 'wigglitz-octopus',
       name: 'Cute Wiggle Octopus',
-      price: '$12.99',
+      price: 12.99,
       tag: 'Super Flexi 🐙',
       color: 'var(--accent-blue)',
       image: 'https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&w=500&q=80'
@@ -133,7 +144,7 @@ const Home = () => {
     {
       id: 'wigglitz-rex',
       name: 'Chomp-O-Saurus Rex',
-      price: '$15.99',
+      price: 15.99,
       tag: 'New Arrival ✨',
       color: 'var(--accent-orange)',
       image: 'https://images.unsplash.com/photo-1581579438747-1dc8d1e0ca96?auto=format&fit=crop&w=500&q=80'
@@ -252,7 +263,7 @@ const Home = () => {
                   <img src={product.image} alt={product.name} className="product-image" />
                 </div>
                 <h3>{product.name}</h3>
-                <p className="product-price">{product.price}</p>
+                <p className="product-price">{formatPrice(product.price)}</p>
                 <div className="product-card-buttons">
                   <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">View Details</Link>
                   <button 

@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { addToCart } from '../utils/cartHelper';
+import { formatPrice } from '../utils/currencyHelper';
 import './ProductPage.css';
 
 const ProductPage = () => {
+  const [currencyTrigger, setCurrencyTrigger] = useState(0);
+
+  useEffect(() => {
+    const handleCurrencyUpdate = () => {
+      setCurrencyTrigger(prev => prev + 1);
+    };
+    window.addEventListener('currency-updated', handleCurrencyUpdate);
+    return () => {
+      window.removeEventListener('currency-updated', handleCurrencyUpdate);
+    };
+  }, []);
+
   const product = {
     id: 'crystal-dragon-articulated',
     name: 'Articulated Crystal Dragon',
-    price: '$24.99',
+    price: 24.99,
     image: 'https://images.unsplash.com/photo-1508898578281-774ac4893c0c?auto=format&fit=crop&w=500&q=80'
   };
 
@@ -19,7 +32,7 @@ const ProductPage = () => {
         <div className="product-details">
           <h1>{product.name}</h1>
           <div className="price-container">
-            <span className="price">{product.price}</span>
+            <span className="price">{formatPrice(product.price)}</span>
           </div>
           <div className="product-form">
             <button 

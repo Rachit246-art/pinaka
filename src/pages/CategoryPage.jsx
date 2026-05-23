@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { addToCart } from '../utils/cartHelper';
+import { formatPrice } from '../utils/currencyHelper';
 import './CategoryPage.css';
 
 const categoryData = {
@@ -11,7 +12,7 @@ const categoryData = {
       {
         id: 'custom-trio-bundle',
         name: 'Custom Trio Pitara Bundle',
-        price: '$34.99',
+        price: 34.99,
         image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=500&q=80',
         tag: 'Popular 🌟'
       }
@@ -24,7 +25,7 @@ const categoryData = {
       {
         id: 'official-guide-v1',
         name: 'Official Pigglitz Collector Guide (Vol. 1)',
-        price: '$4.99',
+        price: 4.99,
         image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=500&q=80',
         tag: 'New 📖'
       }
@@ -37,7 +38,7 @@ const categoryData = {
       {
         id: 'mystery-monthly-box',
         name: 'Pigglitz Mystery Monthly Box',
-        price: '$29.99 / mo',
+        price: 29.99,
         image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=500&q=80',
         tag: 'Best Value 🎁'
       }
@@ -50,7 +51,7 @@ const categoryData = {
       {
         id: 'mini-flexi-tube',
         name: 'Mini Flexi Pocket Pals Tube',
-        price: '$14.99',
+        price: 14.99,
         image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=500&q=80',
         tag: 'Hot Seller 🔥'
       }
@@ -63,7 +64,7 @@ const categoryData = {
       {
         id: 'crystal-dragon-articulated',
         name: 'Articulated Crystal Dragon',
-        price: '$24.99',
+        price: 24.99,
         image: 'https://images.unsplash.com/photo-1508898578281-774ac4893c0c?auto=format&fit=crop&w=500&q=80',
         tag: 'Masterpiece 🐲'
       }
@@ -76,7 +77,7 @@ const categoryData = {
       {
         id: 'winky-octopus-plush',
         name: 'Winky Octopus Soft Plush',
-        price: '$18.99',
+        price: 18.99,
         image: 'https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&w=500&q=80',
         tag: 'Super Soft 🧸'
       }
@@ -89,7 +90,7 @@ const categoryData = {
       {
         id: 'pigglitz-digital-gift-card',
         name: 'Pigglitz Digital Gift Card',
-        price: '$10.00 - $100.00',
+        price: 25.00,
         image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=500&q=80',
         tag: 'E-Gift ✉️'
       }
@@ -102,7 +103,7 @@ const categoryData = {
       {
         id: 'canvas-toy-pouch',
         name: 'Pigglitz Canvas Adventure Pouch',
-        price: '$8.99',
+        price: 8.99,
         image: 'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=500&q=80',
         tag: 'Travel Ready 🎒'
       }
@@ -119,6 +120,18 @@ const cardColors = [
 
 const CategoryPage = () => {
   const { categoryId } = useParams();
+  const [currencyTrigger, setCurrencyTrigger] = useState(0);
+
+  useEffect(() => {
+    const handleCurrencyUpdate = () => {
+      setCurrencyTrigger(prev => prev + 1);
+    };
+    window.addEventListener('currency-updated', handleCurrencyUpdate);
+    return () => {
+      window.removeEventListener('currency-updated', handleCurrencyUpdate);
+    };
+  }, []);
+
   const category = categoryData[categoryId] || {
     title: 'Shop All',
     description: 'Explore our entire collection of magical 3D printed toys!',
@@ -152,7 +165,7 @@ const CategoryPage = () => {
                   <img src={product.image} alt={product.name} className="product-image" />
                 </div>
                 <h3>{product.name}</h3>
-                <p className="product-price">{product.price}</p>
+                <p className="product-price">{formatPrice(product.price)}</p>
                 <div className="product-card-buttons">
                   <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">View Details</Link>
                   <button 
