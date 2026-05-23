@@ -8,6 +8,7 @@ import Account from './pages/Account';
 import Contact from './pages/Contact';
 import CategoryPage from './pages/CategoryPage';
 import Wholesale from './pages/Wholesale';
+import About from './pages/About';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/category/:categoryId" element={<CategoryPage />} />
             <Route path="/wholesale" element={<Wholesale />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </main>
         <Footer />
