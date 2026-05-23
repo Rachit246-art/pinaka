@@ -56,3 +56,20 @@ button {
   justify-content: center;
   align-items: center;
 }
+
+.account-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.logged-in-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  background-color: #4caf50;
+  border: 2px solid var(--secondary-color);
+  border-radius: 50%;
+}
