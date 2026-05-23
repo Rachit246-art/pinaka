@@ -62,7 +62,6 @@ const InstagramShowcase = () => {
 
         <div className="reels-stack">
           {reels.map((reel, idx) => {
-            // Calculate relative position for stacked card effect
             let position = idx - activeIndex;
             if (position < -2) position += reels.length;
             if (position > 2) position -= reels.length;
