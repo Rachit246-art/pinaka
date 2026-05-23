@@ -1,6 +1,26 @@
 import React, { useState } from 'react';
-import { Instagram, Heart, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import './InstagramShowcase.css';
+
+// Safe custom SVG for Instagram icon to avoid package import issues
+const InstagramIcon = ({ size = 20, ...props }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    {...props}
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
 
 const InstagramShowcase = () => {
   const [activeIndex, setActiveIndex] = useState(2);
@@ -94,7 +114,7 @@ const InstagramShowcase = () => {
                 />
                 <div className="reel-overlay">
                   <div className="instagram-icon-badge">
-                    <Instagram size={20} />
+                    <InstagramIcon size={20} />
                   </div>
                   <div className="reel-stats">
                     <span className="stat-item">
@@ -122,7 +142,7 @@ const InstagramShowcase = () => {
           rel="noopener noreferrer" 
           className="btn btn-primary instagram-follow-btn"
         >
-          <Instagram size={20} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+          <InstagramIcon size={20} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
           @wigglitz.zb
         </a>
       </div>
