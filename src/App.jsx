@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Account from './pages/Account';
 import Contact from './pages/Contact';
 import CategoryPage from './pages/CategoryPage';
+import Wholesale from './pages/Wholesale';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/build-bundle" element={<Contact />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/category/:categoryId" element={<CategoryPage />} />
+            <Route path="/wholesale" element={<Wholesale />} />
           </Routes>
         </main>
         <Footer />
