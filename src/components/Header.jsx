@@ -117,7 +117,6 @@ const Header = () => {
 
           <Link to="/wholesale" className="nav-item">Wholesale</Link>
           <Link to="/about" className="nav-item">About Pigglitz</Link>
-          <Link to="/store-locator" className="nav-item">Store Locator</Link>
         </div>
       </nav>
     </header>
