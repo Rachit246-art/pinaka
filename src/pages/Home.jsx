@@ -5,6 +5,7 @@ import { addToCart } from '../utils/cartHelper';
 import { formatPrice } from '../utils/currencyHelper';
 import VideoShowcase from '../components/VideoShowcase';
 import LiveStats from '../components/LiveStats';
+import InstagramShowcase from '../components/InstagramShowcase';
 import './Home.css';
 
 const Home = () => {
@@ -385,6 +386,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Instagram Reels Showcase */}
+      <InstagramShowcase />
 
       {/* Why Pigglitz Section */}
       <section className="features-section container">
