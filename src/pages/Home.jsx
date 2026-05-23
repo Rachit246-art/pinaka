@@ -1,9 +1,75 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, ShieldCheck, Palette, Flame, Star, Heart, Printer, RefreshCw } from 'lucide-react';
+import { Sparkles, ShieldCheck, Palette, Star, Printer, ChevronLeft, ChevronRight } from 'lucide-react';
 import './Home.css';
 
 const Home = () => {
+  // Hero Carousel State
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const heroSlides = [
+    {
+      badge: "✨ 100% Biodegradable Magic ✨",
+      title: "Flexi Rainbow Dragons! 🐲",
+      description: "Articulated, wiggly, and printed in gorgeous rainbow gradients. The ultimate fidget companion for little hands and big imaginations!",
+      primaryBtnText: "Adopt a Dragon 🎁",
+      primaryBtnLink: "/products/crystal-dragon-articulated",
+      secondaryBtnText: "Try 3D Printer 🖨️",
+      secondaryBtnLink: "#simulator",
+      image: "https://images.unsplash.com/photo-1508898578281-774ac4893c0c?auto=format&fit=crop&w=600&q=80",
+      bgGradient: "linear-gradient(135deg, var(--accent-pink), var(--accent-yellow))"
+    },
+    {
+      badge: "🎁 Build Your Dream Bundle 🎁",
+      title: "Custom Pitara Bundles! 🌟",
+      description: "Choose your favorite flexible toys, select your magical filament theme, and build a custom toy box at an amazing price!",
+      primaryBtnText: "Build a Bundle 🚀",
+      primaryBtnLink: "/build-bundle",
+      secondaryBtnText: "Wholesale Inquiry 💼",
+      secondaryBtnLink: "/wholesale",
+      image: "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80",
+      bgGradient: "linear-gradient(135deg, var(--primary-color), var(--accent-blue))"
+    },
+    {
+      badge: "📦 Surprise Delivery Every Month 📦",
+      title: "Mystery Monthly Box! 🎉",
+      description: "Subscribe to get a surprise box of exclusive, limited-edition 3D prints and pocket pals delivered straight to your door!",
+      primaryBtnText: "Subscribe Now 💎",
+      primaryBtnLink: "/category/monthly-box",
+      secondaryBtnText: "About Us 📖",
+      secondaryBtnLink: "/about",
+      image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=600&q=80",
+      bgGradient: "linear-gradient(135deg, var(--accent-orange), var(--accent-pink))"
+    },
+    {
+      badge: "🌱 Safe & Eco-Friendly 🌱",
+      title: "Little Prints. Big Smiles. 😊",
+      description: "Every single toy is printed layer-by-layer using premium, non-toxic PLA filament made from cornstarch. Safe for kids, kind to Earth!",
+      primaryBtnText: "Explore All Toys 🧸",
+      primaryBtnLink: "/category/real-time-collectibles",
+      secondaryBtnText: "Our Story 🎨",
+      secondaryBtnLink: "/about",
+      image: "https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&w=600&q=80",
+      bgGradient: "linear-gradient(135deg, var(--accent-blue), var(--accent-yellow))"
+    }
+  ];
+
+  // Auto-slide effect
+  useEffect(() => {
+    const slideInterval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000); // Slide every 5 seconds
+    return () => clearInterval(slideInterval);
+  }, [heroSlides.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
+
   // Interactive 3D Print Simulator State
   const [selectedToy, setSelectedToy] = useState('Dragon');
   const [selectedColor, setSelectedColor] = useState('#ff2a7a'); // Pink
@@ -53,7 +119,7 @@ const Home = () => {
       price: '$19.99',
       tag: 'Best Seller 🔥',
       color: 'var(--accent-pink)',
-      image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=500&q=80' // Playful abstract/magical background
+      image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=500&q=80'
     },
     {
       id: 'wigglitz-octopus',
@@ -61,7 +127,7 @@ const Home = () => {
       price: '$12.99',
       tag: 'Super Flexi 🐙',
       color: 'var(--accent-blue)',
-      image: 'https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&w=500&q=80' // Cute toy-like image
+      image: 'https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&w=500&q=80'
     },
     {
       id: 'wigglitz-rex',
@@ -69,7 +135,7 @@ const Home = () => {
       price: '$15.99',
       tag: 'New Arrival ✨',
       color: 'var(--accent-orange)',
-      image: 'https://images.unsplash.com/photo-1581579438747-1dc8d1e0ca96?auto=format&fit=crop&w=500&q=80' // Playful dinosaur vibe
+      image: 'https://images.unsplash.com/photo-1581579438747-1dc8d1e0ca96?auto=format&fit=crop&w=500&q=80'
     }
   ];
 
@@ -101,16 +167,62 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Hero Section */}
-      <section className="hero">
-        <div className="container hero-content">
-          <span className="hero-badge">✨ 100% Biodegradable Magic ✨</span>
-          <h1>Welcome to Pigglitz!</h1>
-          <p>3D Printing Pitara - Little Prints. Big Smiles. Discover articulated dragons, wiggly animals, and custom fidget toys!</p>
-          <div className="hero-buttons">
-            <Link to="/products/wigglitz-dragon" className="btn btn-primary">Explore Pitara 🎁</Link>
-            <a href="#simulator" className="btn btn-secondary">Try 3D Printer 🖨️</a>
+      {/* Hero Carousel Section */}
+      <section className="hero-carousel" style={{ background: heroSlides[currentSlide].bgGradient }}>
+        <div className="hero-pattern"></div>
+        <div className="container hero-container-grid">
+          {/* Left Column: Text Content */}
+          <div className="hero-text-side">
+            <span className="hero-badge">{heroSlides[currentSlide].badge}</span>
+            <h1 className="hero-title">{heroSlides[currentSlide].title}</h1>
+            <p className="hero-desc">{heroSlides[currentSlide].description}</p>
+            <div className="hero-buttons">
+              <Link to={heroSlides[currentSlide].primaryBtnLink} className="btn btn-primary">
+                {heroSlides[currentSlide].primaryBtnText}
+              </Link>
+              {heroSlides[currentSlide].secondaryBtnLink.startsWith('#') ? (
+                <a href={heroSlides[currentSlide].secondaryBtnLink} className="btn btn-secondary">
+                  {heroSlides[currentSlide].secondaryBtnText}
+                </a>
+              ) : (
+                <Link to={heroSlides[currentSlide].secondaryBtnLink} className="btn btn-secondary">
+                  {heroSlides[currentSlide].secondaryBtnText}
+                </Link>
+              )}
+            </div>
           </div>
+
+          {/* Right Column: Image Showcase */}
+          <div className="hero-image-side">
+            <div className="hero-image-frame">
+              <img 
+                src={heroSlides[currentSlide].image} 
+                alt={heroSlides[currentSlide].title} 
+                className="hero-showcase-image"
+              />
+              <div className="hero-image-badge">✨ Pigglitz Magic</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Arrows */}
+        <button className="carousel-arrow prev" onClick={prevSlide} aria-label="Previous Slide">
+          <ChevronLeft size={28} />
+        </button>
+        <button className="carousel-arrow next" onClick={nextSlide} aria-label="Next Slide">
+          <ChevronRight size={28} />
+        </button>
+
+        {/* Navigation Dots */}
+        <div className="carousel-dots">
+          {heroSlides.map((_, idx) => (
+            <button 
+              key={idx} 
+              className={`carousel-dot ${currentSlide === idx ? 'active' : ''}`}
+              onClick={() => setCurrentSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </section>
 
