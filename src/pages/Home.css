@@ -136,6 +136,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: calc(var(--spacing-unit) * 4);
+  justify-content: center;
 }
 
 .product-card {
@@ -147,6 +148,9 @@
   background-color: var(--secondary-color);
   box-shadow: 8px 8px 0 var(--accent-blue);
   transition: transform 0.3s ease;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
 }
 
 .product-card:hover {
