@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Package, LogOut, ShoppingBag, ShieldAlert } from 'lucide-react';
+import { User, LogOut, ShoppingBag, ShieldAlert } from 'lucide-react';
+import { getOrders } from '../utils/productHelper';
+import { formatPrice } from '../utils/currencyHelper';
 import './Account.css';
 
 const Account = () => {
   const [user, setUser] = useState(null);
+  const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -12,7 +15,15 @@ const Account = () => {
     if (!savedUser) {
       navigate('/login');
     } else {
-      setUser(JSON.parse(savedUser));
+      const parsedUser = JSON.parse(savedUser);
+      setUser(parsedUser);
+      
+      // Load orders from localStorage and filter by current user's email
+      const allOrders = getOrders();
+      const userOrders = allOrders.filter(
+        order => order.userEmail?.toLowerCase() === parsedUser.email?.toLowerCase()
+      );
+      setOrders(userOrders);
     }
   }, [navigate]);
 
@@ -27,24 +38,6 @@ const Account = () => {
   }
 
   const isUserAdmin = user.isAdmin || user.email?.trim() === 'connect2rachit882@gmail.com';
-
-  // Mock orders for playful 3D printed toys
-  const mockOrders = [
-    {
-      id: "ORD-9821",
-      date: "Feb 15, 2025",
-      status: "Delivered 🚚",
-      total: "$24.99",
-      items: "1x Flexi-Dragon (Rainbow Edition)"
-    },
-    {
-      id: "ORD-7742",
-      date: "Jan 28, 2025",
-      status: "Shipped 📦",
-      total: "$19.99",
-      items: "1x Pigglitz Classic Toy"
-    }
-  ];
 
   return (
     <div className="account-page container">
@@ -76,20 +69,25 @@ const Account = () => {
         {/* Orders Section */}
         <div className="orders-section">
           <h3>Your Pitara Orders 🎁</h3>
-          {mockOrders.length > 0 ? (
+          {orders.length > 0 ? (
             <div className="orders-list">
-              {mockOrders.map((order) => (
+              {orders.map((order) => (
                 <div key={order.id} className="order-card">
                   <div className="order-header">
                     <span className="order-id">{order.id}</span>
                     <span className="order-status">{order.status}</span>
                   </div>
                   <div className="order-details">
-                    <p className="order-items"><strong>Items:</strong> {order.items}</p>
+                    <p className="order-items">
+                      <strong>Items:</strong>{' '}
+                      {Array.isArray(order.items)
+                        ? order.items.map(item => `${item.quantity}x ${item.name}`).join(', ')
+                        : order.items}
+                    </p>
                     <p className="order-date"><strong>Ordered on:</strong> {order.date}</p>
                   </div>
                   <div className="order-footer">
-                    <span>Total: <strong>{order.total}</strong></span>
+                    <span>Total: <strong>{formatPrice(order.total)}</strong></span>
                   </div>
                 </div>
               ))}

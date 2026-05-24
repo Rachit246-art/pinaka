@@ -138,10 +138,10 @@ const Home = () => {
   }, [isPrinting, printingProgress]);
 
   const categories = [
-    { name: 'Flexi Animals', icon: '🦁', color: 'var(--accent-pink)' },
-    { name: 'Articulated Dragons', icon: '🐲', color: 'var(--accent-yellow)' },
-    { name: 'Fidget Toys', icon: '🌀', color: 'var(--accent-blue)' },
-    { name: 'Mystery Boxes', icon: '🎁', color: 'var(--accent-orange)' }
+    { name: 'Build a Bundle', icon: '🎁', color: 'var(--accent-pink)', path: '/category/build-a-wigglitz-bundle' },
+    { name: 'Real Time Collectibles', icon: '🐲', color: 'var(--accent-yellow)', path: '/category/real-time-collectibles' },
+    { name: 'Monthly Box', icon: '📦', color: 'var(--accent-blue)', path: '/category/monthly-box' },
+    { name: 'Tubes & Pocket Pals', icon: '🧪', color: 'var(--accent-orange)', path: '/category/tubes' }
   ];
 
   const testimonials = [
@@ -226,10 +226,10 @@ const Home = () => {
         <h2 className="section-title">Choose Your Adventure! 🚀</h2>
         <div className="categories-grid">
           {categories.map((cat, idx) => (
-            <div key={idx} className="category-card" style={{ '--cat-color': cat.color }}>
+            <Link key={idx} to={cat.path} className="category-card" style={{ '--cat-color': cat.color, display: 'block', textDecoration: 'none' }}>
               <span className="category-icon">{cat.icon}</span>
               <h3>{cat.name}</h3>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
