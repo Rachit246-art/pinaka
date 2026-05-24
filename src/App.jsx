@@ -11,6 +11,7 @@ import CategoryPage from './pages/CategoryPage';
 import Wholesale from './pages/Wholesale';
 import About from './pages/About';
 import Cart from './pages/Cart';
+import AdminPanel from './pages/AdminPanel';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/wholesale" element={<Wholesale />} />
             <Route path="/about" element={<About />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/admin" element={<AdminPanel />} />
           </Routes>
         </main>
         <Footer />

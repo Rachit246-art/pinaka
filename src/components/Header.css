@@ -68,6 +68,34 @@
   justify-content: flex-end;
 }
 
+/* Admin Badge Link */
+.admin-badge-link {
+  color: var(--accent-pink);
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.admin-badge-link:hover {
+  transform: scale(1.05);
+  color: var(--primary-color);
+}
+
+.admin-icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #fff0f5;
+  border: 2px solid var(--accent-pink);
+  padding: 4px 12px;
+  border-radius: 50px;
+}
+
+.admin-text {
+  font-size: 14px;
+}
+
 /* Currency Selector Dropdown */
 .currency-selector-wrapper {
   position: relative;
@@ -323,3 +351,4 @@
     padding: 0 16px;
   }
 }
+</dyad-css>

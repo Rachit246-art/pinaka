@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Search, User, ChevronDown, Globe } from 'lucide-react';
+import { ShoppingCart, Search, User, ChevronDown, Globe, ShieldAlert } from 'lucide-react';
 import { getCart } from '../utils/cartHelper';
 import { currencies, getSelectedCurrency, setSelectedCurrency } from '../utils/currencyHelper';
 import './Header.css';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [userName, setUserName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
@@ -19,11 +20,14 @@ const Header = () => {
   const checkUserStatus = () => {
     const savedUser = localStorage.getItem('pigglitz_user');
     if (savedUser) {
+      const parsed = JSON.parse(savedUser);
       setIsLoggedIn(true);
-      setUserName(JSON.parse(savedUser).name);
+      setUserName(parsed.name);
+      setIsAdmin(!!parsed.isAdmin);
     } else {
       setIsLoggedIn(false);
       setUserName('');
+      setIsAdmin(false);
     }
   };
 
@@ -51,7 +55,6 @@ const Header = () => {
     window.addEventListener('cart-updated', updateCartBadge);
     window.addEventListener('currency-updated', handleCurrencyUpdate);
     
-    // Close dropdown when clicking outside
     const handleClickOutside = (event) => {
       if (currencyRef.current && !currencyRef.current.contains(event.target)) {
         setCurrencyDropdownOpen(false);
@@ -129,6 +132,15 @@ const Header = () => {
               </div>
             )}
           </div>
+
+          {isAdmin && (
+            <Link to="/admin" className="admin-badge-link" title="Admin Panel">
+              <div className="admin-icon-wrapper">
+                <ShieldAlert size={22} />
+                <span className="admin-text">Admin</span>
+              </div>
+            </Link>
+          )}
 
           <Link to={isLoggedIn ? "/account" : "/login"} className="account-link" title={isLoggedIn ? `Account (${userName})` : "Login"}>
             <div className="account-icon-wrapper">

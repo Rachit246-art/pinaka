@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom';
 import { Sparkles, ShieldCheck, Palette, Star, Printer, ChevronLeft, ChevronRight } from 'lucide-react';
 import { addToCart } from '../utils/cartHelper';
 import { formatPrice } from '../utils/currencyHelper';
+import { getProducts } from '../utils/productHelper';
 import VideoShowcase from '../components/VideoShowcase';
 import LiveStats from '../components/LiveStats';
 import InstagramShowcase from '../components/InstagramShowcase';
 import './Home.css';
 
 const Home = () => {
-  // Hero Carousel State
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currencyTrigger, setCurrencyTrigger] = useState(0);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
 
   const heroSlides = [
     {
@@ -60,20 +61,30 @@ const Home = () => {
     }
   ];
 
-  // Auto-slide effect
+  const loadFeaturedProducts = () => {
+    const allProducts = getProducts();
+    // Get first 3 products as featured
+    setFeaturedProducts(allProducts.slice(0, 3));
+  };
+
   useEffect(() => {
+    loadFeaturedProducts();
+
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000); // Slide every 5 seconds
+    }, 5000);
     
     const handleCurrencyUpdate = () => {
       setCurrencyTrigger(prev => prev + 1);
     };
+
     window.addEventListener('currency-updated', handleCurrencyUpdate);
+    window.addEventListener('products-updated', loadFeaturedProducts);
 
     return () => {
       clearInterval(slideInterval);
       window.removeEventListener('currency-updated', handleCurrencyUpdate);
+      window.removeEventListener('products-updated', loadFeaturedProducts);
     };
   }, [heroSlides.length]);
 
@@ -87,7 +98,7 @@ const Home = () => {
 
   // Interactive 3D Print Simulator State
   const [selectedToy, setSelectedToy] = useState('Dragon');
-  const [selectedColor, setSelectedColor] = useState('#ff2a7a'); // Pink
+  const [selectedColor, setSelectedColor] = useState('#ff2a7a');
   const [printingProgress, setPrintingProgress] = useState(0);
   const [isPrinting, setIsPrinting] = useState(false);
   const [printComplete, setPrintComplete] = useState(false);
@@ -126,35 +137,6 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [isPrinting, printingProgress]);
 
-  // Mock Products (using numeric USD values)
-  const featuredProducts = [
-    {
-      id: 'wigglitz-dragon',
-      name: 'Flexi Rainbow Dragon',
-      price: 19.99,
-      tag: 'Best Seller 🔥',
-      color: 'var(--accent-pink)',
-      image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=500&q=80'
-    },
-    {
-      id: 'wigglitz-octopus',
-      name: 'Cute Wiggle Octopus',
-      price: 12.99,
-      tag: 'Super Flexi 🐙',
-      color: 'var(--accent-blue)',
-      image: 'https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&w=500&q=80'
-    },
-    {
-      id: 'wigglitz-rex',
-      name: 'Chomp-O-Saurus Rex',
-      price: 15.99,
-      tag: 'New Arrival ✨',
-      color: 'var(--accent-orange)',
-      image: 'https://images.unsplash.com/photo-1581579438747-1dc8d1e0ca96?auto=format&fit=crop&w=500&q=80'
-    }
-  ];
-
-  // Categories
   const categories = [
     { name: 'Flexi Animals', icon: '🦁', color: 'var(--accent-pink)' },
     { name: 'Articulated Dragons', icon: '🐲', color: 'var(--accent-yellow)' },
@@ -162,7 +144,6 @@ const Home = () => {
     { name: 'Mystery Boxes', icon: '🎁', color: 'var(--accent-orange)' }
   ];
 
-  // Testimonials
   const testimonials = [
     {
       name: 'Aarav (9 years old)',
@@ -180,13 +161,14 @@ const Home = () => {
     }
   ];
 
+  const cardColors = ['var(--accent-pink)', 'var(--accent-blue)', 'var(--accent-orange)'];
+
   return (
     <div className="home-page">
       {/* Hero Carousel Section */}
       <section className="hero-carousel" style={{ background: heroSlides[currentSlide].bgGradient }}>
         <div className="hero-pattern"></div>
         <div className="container hero-container-grid">
-          {/* Left Column: Text Content */}
           <div className="hero-text-side">
             <span className="hero-badge">{heroSlides[currentSlide].badge}</span>
             <h1 className="hero-title">{heroSlides[currentSlide].title}</h1>
@@ -207,7 +189,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Right Column: Image Showcase */}
           <div className="hero-image-side">
             <div className="hero-image-frame">
               <img 
@@ -220,7 +201,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Navigation Arrows */}
         <button className="carousel-arrow prev" onClick={prevSlide} aria-label="Previous Slide">
           <ChevronLeft size={28} />
         </button>
@@ -228,7 +208,6 @@ const Home = () => {
           <ChevronRight size={28} />
         </button>
 
-        {/* Navigation Dots */}
         <div className="carousel-dots">
           {heroSlides.map((_, idx) => (
             <button 
@@ -241,10 +220,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Live Stats Ticker */}
       <LiveStats />
 
-      {/* Categories Section */}
       <section className="categories-section container">
         <h2 className="section-title">Choose Your Adventure! 🚀</h2>
         <div className="categories-grid">
@@ -257,7 +234,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Video Showcase Section */}
       <VideoShowcase />
 
       {/* Featured Products */}
@@ -265,25 +241,30 @@ const Home = () => {
         <div className="container">
           <h2>Featured Pitara Treasures 💎</h2>
           <div className="products-grid">
-            {featuredProducts.map((product) => (
-              <div key={product.id} className="product-card" style={{ borderColor: product.color }}>
-                <div className="product-tag" style={{ backgroundColor: product.color }}>{product.tag}</div>
-                <div className="product-image-wrapper">
-                  <img src={product.image} alt={product.name} className="product-image" />
+            {featuredProducts.map((product, idx) => {
+              const cardColor = cardColors[idx % cardColors.length];
+              return (
+                <div key={product.id} className="product-card" style={{ borderColor: cardColor }}>
+                  {product.tag && (
+                    <div className="product-tag" style={{ backgroundColor: cardColor }}>{product.tag}</div>
+                  )}
+                  <div className="product-image-wrapper">
+                    <img src={product.image} alt={product.name} className="product-image" />
+                  </div>
+                  <h3>{product.name}</h3>
+                  <p className="product-price">{formatPrice(product.price)}</p>
+                  <div className="product-card-buttons">
+                    <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">View Details</Link>
+                    <button 
+                      onClick={() => addToCart(product)} 
+                      className="btn btn-primary btn-sm"
+                    >
+                      Add to Cart 🛒
+                    </button>
+                  </div>
                 </div>
-                <h3>{product.name}</h3>
-                <p className="product-price">{formatPrice(product.price)}</p>
-                <div className="product-card-buttons">
-                  <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">View Details</Link>
-                  <button 
-                    onClick={() => addToCart(product)} 
-                    className="btn btn-primary btn-sm"
-                  >
-                    Add to Cart 🛒
-                  </button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -295,7 +276,6 @@ const Home = () => {
             <h2>Create Your Own Toy! 🖨️</h2>
             <p>Experience the magic of 3D printing! Choose a model and a filament color, then hit print to watch your toy come to life.</p>
             
-            {/* Toy Selector */}
             <div className="selector-group">
               <h4>1. Choose Your Toy:</h4>
               <div className="toy-options">
@@ -312,7 +292,6 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Color Selector */}
             <div className="selector-group">
               <h4>2. Choose Filament Color:</h4>
               <div className="color-options">
@@ -329,7 +308,6 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Print Button */}
             <button 
               className="btn btn-primary print-trigger-btn" 
               onClick={startPrinting}
@@ -339,7 +317,6 @@ const Home = () => {
             </button>
           </div>
 
-          {/* Printer Visualizer */}
           <div className="printer-visualizer">
             <div className="printer-frame">
               <div className="printer-gantry" style={{ top: `${10 + (printingProgress * 0.7)}%` }}>
@@ -367,7 +344,6 @@ const Home = () => {
                 )}
               </div>
 
-              {/* Progress Bar */}
               {isPrinting && (
                 <div className="print-progress-container">
                   <div className="print-progress-bar" style={{ width: `${printingProgress}%`, backgroundColor: selectedColor }}></div>
@@ -387,10 +363,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Instagram Reels Showcase */}
       <InstagramShowcase />
 
-      {/* Why Pigglitz Section */}
       <section className="features-section container">
         <h2 className="section-title">Why Pigglitz is Magical ✨</h2>
         <div className="features-grid">
@@ -418,7 +392,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
       <section className="testimonials-section">
         <div className="container">
           <h2 className="section-title">Loved by Little Printers ❤️</h2>

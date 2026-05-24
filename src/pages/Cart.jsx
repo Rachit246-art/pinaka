@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { getCart, updateQuantity, removeFromCart, clearCart } from '../utils/cartHelper';
 import { formatPrice } from '../utils/currencyHelper';
+import { addOrder } from '../utils/productHelper';
 import './Cart.css';
 
 const Cart = () => {
@@ -40,13 +41,27 @@ const Cart = () => {
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
-      // Ensure price is treated as a number
       const priceNum = typeof item.price === 'number' ? item.price : parseFloat(item.price.toString().replace(/[^0-9.]/g, ''));
       return total + (priceNum * item.quantity);
     }, 0);
   };
 
   const handleCheckout = () => {
+    const savedUser = localStorage.getItem('pigglitz_user');
+    const user = savedUser ? JSON.parse(savedUser) : { name: 'Guest', email: 'guest@example.com' };
+
+    // Save order to mock backend
+    addOrder({
+      userEmail: user.email,
+      userName: user.name,
+      total: calculateTotal(),
+      items: cartItems.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      }))
+    });
+
     setCheckoutSuccess(true);
     clearCart();
   };

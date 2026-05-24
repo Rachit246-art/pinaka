@@ -33,32 +33,38 @@
 
 .login-form label {
   display: block;
-  margin-bottom: calc(var(--spacing-unit) * 3);
-  font-weight: 600;
-  color: #222;
+  margin-bottom: calc(var(--spacing-unit) * 1);
+  font-weight: 800;
+  color: var(--primary-color);
+  text-align: left;
+}
+
+.login-form .form-group {
+  margin-bottom: calc(var(--spacing-unit) * 2.5);
 }
 
 .login-form input {
   width: 100%;
-  padding: calc(var(--spacing-unit) * 2);
-  margin-top: calc(var(--spacing-unit) * 1);
-  border: 3px solid var(--accent-pink);
+  padding: calc(var(--spacing-unit) * 1.5);
+  margin-top: calc(var(--spacing-unit) * 0.5);
+  border: 3px solid var(--primary-color);
   border-radius: 12px;
-  font-size: 18px;
-  background: #fff7f7;
+  font-size: 16px;
+  background: #fff;
+  font-family: var(--font-family);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .login-form input:focus {
   outline: none;
-  transform: scale(1.03);
+  transform: scale(1.02);
   box-shadow: 0 0 12px var(--accent-pink);
 }
 
 .btn-primary {
   background: var(--primary-color);
   color: #fff;
-  padding: calc(var(--spacing-unit) * 2.5) calc(var(--spacing-unit) * 6);
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 6);
   border-radius: 30px;
   font-weight: 800;
   font-size: 18px;
@@ -68,7 +74,7 @@
 }
 
 .btn-primary:hover {
-  background: #ff5a5a;
+  background: var(--accent-pink);
   transform: translateY(-2px);
 }
 

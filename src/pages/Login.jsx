@@ -3,12 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', mobile: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '' });
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If already logged in, redirect to account page
     const savedUser = localStorage.getItem('pigglitz_user');
     if (savedUser) {
       navigate('/account');
@@ -22,13 +21,26 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, mobile } = formData;
+    const { name, email, mobile, password } = formData;
     if (name && email && mobile) {
-      localStorage.setItem('pigglitz_user', JSON.stringify({ name, email, mobile }));
+      const isAdmin = email.trim() === 'connect2rachit882@gmail.com' && password === 'Rachit';
+      
+      const userObj = { 
+        name, 
+        email, 
+        mobile,
+        isAdmin 
+      };
+
+      localStorage.setItem('pigglitz_user', JSON.stringify(userObj));
       setSubmitted(true);
+      
       setTimeout(() => {
-        navigate('/account');
-        // Trigger a storage event or custom event to update the header
+        if (isAdmin) {
+          navigate('/admin');
+        } else {
+          navigate('/account');
+        }
         window.dispatchEvent(new Event('storage'));
       }, 1500);
     }
@@ -77,6 +89,18 @@ const Login = () => {
                 value={formData.mobile}
                 onChange={handleChange}
                 placeholder="Enter mobile number"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter password (Required for Admin)"
                 required
               />
             </div>
