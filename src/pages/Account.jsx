@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Package, LogOut, ShoppingBag } from 'lucide-react';
+import { User, Package, LogOut, ShoppingBag, ShieldAlert } from 'lucide-react';
 import './Account.css';
 
 const Account = () => {
@@ -26,6 +26,8 @@ const Account = () => {
     return <div className="container" style={{ padding: '40px', textAlign: 'center' }}>Loading...</div>;
   }
 
+  const isUserAdmin = user.isAdmin || user.email?.trim() === 'connect2rachit882@gmail.com';
+
   // Mock orders for playful 3D printed toys
   const mockOrders = [
     {
@@ -39,7 +41,7 @@ const Account = () => {
       id: "ORD-7742",
       date: "Jan 28, 2025",
       status: "Shipped 📦",
-      total: "19.99",
+      total: "$19.99",
       items: "1x Pigglitz Classic Toy"
     }
   ];
@@ -58,6 +60,13 @@ const Account = () => {
           <p className="profile-email">{user.email}</p>
           <p className="profile-phone">📞 {user.mobile}</p>
           
+          {isUserAdmin && (
+            <Link to="/admin" className="btn btn-primary admin-panel-btn" style={{ marginBottom: '12px', width: '100%' }}>
+              <ShieldAlert size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+              Admin Control Pitara 🛠️
+            </Link>
+          )}
+
           <button onClick={handleLogout} className="btn btn-secondary logout-btn">
             <LogOut size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
             Logout

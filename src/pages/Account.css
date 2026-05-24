@@ -61,6 +61,18 @@
   margin-bottom: calc(var(--spacing-unit) * 3);
 }
 
+.admin-panel-btn {
+  background-color: var(--accent-blue) !important;
+  border-color: var(--accent-blue) !important;
+  color: white !important;
+}
+
+.admin-panel-btn:hover {
+  background-color: #0099cc !important;
+  border-color: #0099cc !important;
+  box-shadow: 0 6px 12px rgba(0, 187, 249, 0.3) !important;
+}
+
 .logout-btn {
   width: 100%;
   margin-top: auto;

