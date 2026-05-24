@@ -32,7 +32,17 @@ const Login = () => {
         isAdmin 
       };
 
+      // Save current logged in user
       localStorage.setItem('pigglitz_user', JSON.stringify(userObj));
+
+      // Save to global users list for Admin Panel
+      const existingUsers = JSON.parse(localStorage.getItem('pigglitz_users') || '[]');
+      const userExists = existingUsers.some(u => u.email.toLowerCase() === email.toLowerCase());
+      if (!userExists) {
+        existingUsers.push(userObj);
+        localStorage.setItem('pigglitz_users', JSON.stringify(existingUsers));
+      }
+
       setSubmitted(true);
       
       setTimeout(() => {

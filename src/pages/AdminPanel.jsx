@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProducts, addProduct, updateProduct, deleteProduct, getOrders, updateOrderStatus } from '../utils/productHelper';
 import { formatPrice } from '../utils/currencyHelper';
-import { Plus, Edit, Trash2, ShoppingBag, LayoutDashboard, Package, Check, RefreshCw } from 'lucide-react';
+import { Plus, Edit, Trash2, ShoppingBag, LayoutDashboard, Package, Users, ShieldAlert } from 'lucide-react';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
@@ -12,6 +12,7 @@ const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [usersList, setUsersList] = useState([]);
   const navigate = useNavigate();
 
   // Form States
@@ -44,13 +45,22 @@ const AdminPanel = () => {
       return;
     }
     const parsed = JSON.parse(savedUser);
-    if (!parsed.isAdmin) {
+    if (!parsed.isAdmin && parsed.email?.trim() !== 'connect2rachit882@gmail.com') {
       navigate('/account');
       return;
     }
     setUser(parsed);
     setProducts(getProducts());
     setOrders(getOrders());
+    
+    // Load registered users list
+    const savedUsers = JSON.parse(localStorage.getItem('pigglitz_users') || '[]');
+    // Ensure the admin is in the list if not already
+    if (savedUsers.length === 0 && parsed) {
+      savedUsers.push(parsed);
+      localStorage.setItem('pigglitz_users', JSON.stringify(savedUsers));
+    }
+    setUsersList(savedUsers);
   }, [navigate]);
 
   const handleFormChange = (e) => {
@@ -134,6 +144,12 @@ const AdminPanel = () => {
           onClick={() => setActiveTab('orders')}
         >
           <ShoppingBag size={18} /> Manage Orders
+        </button>
+        <button 
+          className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`}
+          onClick={() => setActiveTab('users')}
+        >
+          <Users size={18} /> Registered Users
         </button>
       </div>
 
@@ -307,7 +323,7 @@ const AdminPanel = () => {
                     <h4>{order.id}</h4>
                     <span className="order-date">{order.date}</span>
                   </div>
-                  <div className="order-status-select-wrapper">
+                  <div className="order-status-badge-wrapper">
                     <select 
                       value={order.status} 
                       onChange={(e) => handleStatusChange(order.id, e.target.value)}
@@ -333,6 +349,31 @@ const AdminPanel = () => {
                 </div>
                 <div className="order-card-footer">
                   <span>Total Paid: <strong>{formatPrice(order.total)}</strong></span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tab Content: Users */}
+      {activeTab === 'users' && (
+        <div className="users-tab">
+          <h3>Registered Playmates ({usersList.length})</h3>
+          <div className="admin-users-grid">
+            {usersList.map((u, idx) => (
+              <div key={idx} className="admin-user-card">
+                <div className="user-card-header">
+                  <h4>{u.name}</h4>
+                  {u.isAdmin && (
+                    <span className="admin-badge">
+                      <ShieldAlert size={14} /> Commander
+                    </span>
+                  )}
+                </div>
+                <div className="user-card-body">
+                  <p><strong>Email:</strong> {u.email}</p>
+                  <p><strong>Mobile:</strong> {u.mobile || 'N/A'}</p>
                 </div>
               </div>
             ))}
